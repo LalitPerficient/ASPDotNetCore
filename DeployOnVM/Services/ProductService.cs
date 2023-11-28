@@ -1,4 +1,5 @@
 ﻿using DeployOnVM.Models;
+using Microsoft.FeatureManagement;
 using System.Data.SqlClient;
 
 namespace DeployOnVM.Services
@@ -24,10 +25,26 @@ namespace DeployOnVM.Services
         //}
 
         private readonly IConfiguration _configuration;
-        public ProductService(IConfiguration configuration)
+        private readonly IFeatureManager _featureManager;
+        public ProductService(IConfiguration configuration,IFeatureManager featureManager)
         {
             _configuration = configuration;
+            _featureManager = featureManager;
         }
+
+        public async Task<bool> IsBeta()
+        {
+            if(await _featureManager.IsEnabledAsync("beta"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         private SqlConnection GetConnection()
         {
 

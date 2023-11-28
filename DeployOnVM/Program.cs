@@ -1,4 +1,5 @@
 using DeployOnVM.Services;
+using Microsoft.FeatureManagement;
 
 namespace DeployOnVM
 {
@@ -11,14 +12,24 @@ namespace DeployOnVM
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
-			builder.Host.ConfigureAppConfiguration(builder =>
-			{
-				builder.AddAzureAppConfiguration(conString);
-			});
-			
-			builder.Services.AddTransient<IProductService, ProductService>();
+            builder.Host.ConfigureAppConfiguration(builder =>
+            {
+                //builder.AddAzureAppConfiguration(conString);
+				builder.AddAzureAppConfiguration(option =>
+				{
+					option.Connect(conString).UseFeatureFlags();
+				});//If you want to use feature flag
+            });
 
-			var app = builder.Build();
+
+			
+
+
+            builder.Services.AddTransient<IProductService, ProductService>();
+
+			builder.Services.AddFeatureManagement();//To Enable Feature Management Service
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())

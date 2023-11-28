@@ -5,11 +5,11 @@ using System.Diagnostics;
 
 namespace DeployOnVM.Controllers
 {
-	public class HomeController : Controller
+    
+    public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
 
-		public List<Product> Products;
 		private readonly IProductService _productService;
 		public HomeController(ILogger<HomeController> logger,IProductService productService)
 		{
@@ -19,8 +19,13 @@ namespace DeployOnVM.Controllers
 
 		public IActionResult Index()
 		{
-			Products = _productService.GetProducts();
-			return View(Products);
+			ProductResponse productResponse = new ProductResponse()
+			{
+				IsBeta = _productService.IsBeta().Result,
+				Products = _productService.GetProducts()
+			};
+
+			return View(productResponse);
 		}
 
 		public IActionResult Privacy()
