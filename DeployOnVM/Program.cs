@@ -6,10 +6,16 @@ namespace DeployOnVM
 	{
 		public static void Main(string[] args)
 		{
+			var conString = "Endpoint=https://azureappconfiggmf.azconfig.io;Id=JfhD;Secret=sML70L+VStHYPXjdSCBK+r+LrmRsA4ptkhf3rxAn7+E=";
 			var builder = WebApplication.CreateBuilder(args);
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Host.ConfigureAppConfiguration(builder =>
+			{
+				builder.AddAzureAppConfiguration(conString);
+			});
+			
 			builder.Services.AddTransient<IProductService, ProductService>();
 
 			var app = builder.Build();

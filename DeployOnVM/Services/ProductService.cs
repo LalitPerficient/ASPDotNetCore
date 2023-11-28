@@ -31,7 +31,8 @@ namespace DeployOnVM.Services
         private SqlConnection GetConnection()
         {
 
-            return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
+            //return new SqlConnection(_configuration.GetConnectionString("SQLConnection")); //Takes conString from WebAppService/Configuration/AppSetting/ConnectionString
+            return new SqlConnection(_configuration["SQLConnection"]); //Takes ConString from Azure App Config Service
         }
 
 
