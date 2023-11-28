@@ -31,7 +31,7 @@ namespace DeployOnVM.Services
         private SqlConnection GetConnection()
         {
 
-            return new SqlConnection(_configuration["SQLConnection"]);
+            return new SqlConnection(_configuration.GetConnectionString("SQLConnection"));
         }
 
 
