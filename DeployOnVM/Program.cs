@@ -1,3 +1,5 @@
+using DeployOnVM.Services;
+
 namespace DeployOnVM
 {
 	public class Program
@@ -8,6 +10,7 @@ namespace DeployOnVM
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddTransient<IProductService, ProductService>();
 
 			var app = builder.Build();
 

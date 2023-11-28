@@ -10,15 +10,16 @@ namespace DeployOnVM.Controllers
 		private readonly ILogger<HomeController> _logger;
 
 		public List<Product> Products;
-		public HomeController(ILogger<HomeController> logger)
+		private readonly IProductService _productService;
+		public HomeController(ILogger<HomeController> logger,IProductService productService)
 		{
 			_logger = logger;
+			_productService = productService;
 		}
 
 		public IActionResult Index()
 		{
-			ProductService productService = new ProductService();
-			Products = productService.GetProducts();
+			Products = _productService.GetProducts();
 			return View(Products);
 		}
 
